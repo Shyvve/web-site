@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Создавай и решай</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #1f2937;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1, h2 { text-align: center; color: var(--primary); }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+            margin: 5px;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-danger { background-color: #ef4444; }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .hidden { display: none; }
+        
+        .option-group { display: flex; gap: 10px; align-items: center; }
+        .quiz-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Стили для самого теста */
+        .question-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-btn {
+            padding: 15px;
+            background: #eef2ff;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .option-btn:hover { border-color: var(--primary); }
+        .option-btn.correct { background-color: #d1fae5; border-color: #10b981; }
+        .option-btn.wrong { background-color: #fee2e2; border-color: #ef4444; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧠 QuizMaster</h1>
+    
+    <div id="menu-screen" class="card">
+        <h2>Мои квизы</h2>
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+            <button class="btn" onclick="showCreator()">+ Создать новый</button>
+            <label class="btn btn-outline" style="cursor: pointer;">
+                📥 Загрузить файл
+                <input type="file" id="fileInput" accept=".json" hidden onchange="loadQuizFromFile(this)">
+            </label>
+        </div>
+        <div id="quiz-list">
+            <p style="text-align: center; color: #888;">Пока нет тестов. Создайте или загрузите!</p>
+        </div>
+    </div>
+
+    <div id="creator-screen" class="card hidden">
+        <h2>Создание теста</h2>
+        <input type="text" id="new-quiz-title" placeholder="Название теста (например: История Рима)">
+        <hr>
+        <div id="questions-container">
+            <div class="question-form">
+                <input type="text" id="q-text" placeholder="Текст вопроса">
+                <div class="option-group"><span>A)</span> <input type="text" id="opt-a" placeholder="Вариант A"></div>
+                <div class="option-group"><span>B)</span> <input type="text" id="opt-b" placeholder="Вариант B"></div>
+                <div class="option-group"><span>C)</span> <input type="text" id="opt-c" placeholder="Вариант C"></div>
+                <div class="option-group"><span>D)</span> <input type="text" id="opt-d" placeholder="Вариант D"></div>
+                <label>Правильный ответ:</label>
+                <select id="correct-opt">
+                    <option value="0">A</option>
+                    <option value="1">B</option>
+                    <option value="2">C</option>
+                    <option value="3">D</option>
+                </select>
+                <button class="btn btn-outline" onclick="addQuestion()">Добавить вопрос в список</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; background: #f9fafb; padding: 10px; border-radius: 8px;">
+            <strong>Добавлено вопросов: <span id="q-count">0</span></strong>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+            <button class="btn btn-danger" onclick="showMenu()">Отмена</button>
+            <button class="btn" onclick="saveQuiz()">💾 Сохранить тест</button>
+        </div>
+    </div>
+
+    <div id="game-screen" class="card hidden">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <span id="quiz-title-display" style="font-weight: bold;"></span>
+            <span id="score-display">Очки: 0</span>
+        </div>
+        <div id="game-area">
+            <div class="question-text" id="game-question"></div>
+            <div class="options-grid" id="game-options"></div>
+        </div>
+        <button class="btn hidden" id="next-btn" onclick="nextQuestion()" style="width: 100%; margin-top: 20px;">Следующий вопрос</button>
+        <button class="btn btn-danger hidden" id="finish-btn" onclick="finishQuiz()" style="width: 100%; margin-top: 20px;">Завершить</button>
+    </div>
+</div>
+
+<script>
+    // --- Логика данных ---
+    let quizzes = JSON.parse(localStorage.getItem('myQuizzes')) || [];
+    let currentNewQuiz = { title: "", questions: [] };
+    let activeQuiz = null;
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    // --- Инициализация ---
+    renderQuizList();
+
+    // --- Навигация ---
+    function showMenu() {
+        document.getElementById('menu-screen').classList.remove('hidden');
+        document.getElementById('creator-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.add('hidden');
+        renderQuizList();
+    }
+
+    function showCreator() {
+        currentNewQuiz = { title: "", questions: [] };
+        document.getElementById('q-count').innerText = '0';
+        document.getElementById('new-quiz-title').value = '';
+        document.getElementById('q-text').value = '';
+        ['a','b','c','d'].forEach(l => document.getElementById(`opt-${l}`).value = '');
+        
+        document.getElementById('menu-screen').classList.add('hidden');
+        document.getElementById('creator-screen').classList.remove('hidden');
+    }
+
+    // --- Конструктор ---
+    function addQuestion() {
+        const text = document.getElementById('q-text').value;
+        const options = [
+            document.getElementById('opt-a').value,
+            document.getElementById('opt-b').value,
+            document.getElementById('opt-c').value,
+            document.getElementById('opt-d').value
+        ];
+        const correct = parseInt(document.getElementById('correct-opt').value);
+
+        if(!text || options.some(o => !o)) {
+            alert("Заполните все поля!");
+            return;
+        }
+
+        currentNewQuiz.questions.push({ text, options, correct });
+        document.getElementById('q-count').innerText = currentNewQuiz.questions.length;
+        
+        // Очистка полей
+        document.getElementById('q-text').value = '';
+        ['a','b','c','d'].forEach(l => document.getElementById(`opt-${l}`).value = '');
+        alert("Вопрос добавлен!");
+    }
+
+    function saveQuiz() {
+        const title = document.getElementById('new-quiz-title').value;
+        if(!title || currentNewQuiz.questions.length === 0) {
+            alert("Укажите название и добавьте хотя бы 1 вопрос");
+            return;
+        }
+        currentNewQuiz.title = title;
+        currentNewQuiz.id = Date.now(); // Уникальный ID
+        quizzes.push(currentNewQuiz);
+        localStorage.setItem('myQuizzes', JSON.stringify(quizzes));
+        showMenu();
+    }
+
+    // --- Список тестов ---
+    function renderQuizList() {
+        const list = document.getElementById('quiz-list');
+        list.innerHTML = '';
+        if(quizzes.length === 0) {
+            list.innerHTML = '<p style="text-align: center; color: #888;">Список пуст</p>';
+            return;
+        }
+
+        quizzes.forEach((quiz, index) => {
+            const div = document.createElement('div');
+            div.className = 'quiz-item';
+            div.innerHTML = `
+                <div>
+                    <strong>${quiz.title}</strong> (${quiz.questions.length} вопр.)
+                </div>
+                <div>
+                    <button class="btn" onclick="startQuiz(${index})">▶ Начать</button>
+                    <button class="btn btn-outline" onclick="downloadQuiz(${index})">⬇ Скачать</button>
+                    <button class="btn btn-danger" onclick="deleteQuiz(${index})">✖</button>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function deleteQuiz(index) {
+        if(confirm('Удалить этот тест?')) {
+            quizzes.splice(index, 1);
+            localStorage.setItem('myQuizzes', JSON.stringify(quizzes));
+            renderQuizList();
+        }
+    }
+
+    // --- Загрузка/Скачивание ---
+    function downloadQuiz(index) {
+        const quiz = quizzes[index];
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(quiz));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", quiz.title + ".json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
+    function loadQuizFromFile(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const quiz = JSON.parse(e.target.result);
+                if(quiz.title && quiz.questions) {
+                    quiz.id = Date.now();
+                    quizzes.push(quiz);
+                    localStorage.setItem('myQuizzes', JSON.stringify(quizzes));
+                    renderQuizList();
+                } else {
+                    alert("Неверный формат файла");
+                }
+            } catch (err) {
+                alert("Ошибка чтения JSON");
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // --- Игровой процесс ---
+    function startQuiz(index) {
+        activeQuiz = quizzes[index];
+        currentQuestionIndex = 0;
+        score = 0;
+        document.getElementById('menu-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.remove('hidden');
+        document.getElementById('quiz-title-display').innerText = activeQuiz.title;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const q = activeQuiz.questions[currentQuestionIndex];
+        document.getElementById('score-display').innerText = `Счет: ${score}/${activeQuiz.questions.length}`;
+        document.getElementById('game-question').innerText = `${currentQuestionIndex + 1}. ${q.text}`;
+        
+        const optionsDiv = document.getElementById('game-options');
+        optionsDiv.innerHTML = '';
+        
+        document.getElementById('next-btn').classList.add('hidden');
+        document.getElementById('finish-btn').classList.add('hidden');
+
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(idx, btn);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIdx, btnElement) {
+        const q = activeQuiz.questions[currentQuestionIndex];
+        const allBtns = document.querySelectorAll('.option-btn');
+        
+        // Блокируем все кнопки
+        allBtns.forEach(b => b.disabled = true);
+
+        if(selectedIdx === q.correct) {
+            btnElement.classList.add('correct');
+            score++;
+        } else {
+            btnElement.classList.add('wrong');
+            allBtns[q.correct].classList.add('correct'); // Показать правильный
+        }
+
+        // Показать кнопку "Дальше" или "Завершить"
+        if(currentQuestionIndex < activeQuiz.questions.length - 1) {
+            document.getElementById('next-btn').classList.remove('hidden');
+        } else {
+            document.getElementById('finish-btn').classList.remove('hidden');
+        }
+        document.getElementById('score-display').innerText = `Счет: ${score}/${activeQuiz.questions.length}`;
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        renderQuestion();
+    }
+
+    function finishQuiz() {
+        alert(`Тест завершен! Ваш результат: ${score} из ${activeQuiz.questions.length}`);
+        showMenu();
+    }
+</script>
+
+</body>
+</html>
