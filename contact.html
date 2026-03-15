@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — BIL — Bilim Innovation Lyceum</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Top Bar ── -->
+  <div class="topbar">
+    <div class="container">
+      <span>📞 +1 (555) 240-0100 &nbsp;|&nbsp; ✉ admissions@bil-lyceum.edu</span>
+      <div class="topbar-links">
+        <a href="#">Student Portal</a>
+        <a href="#">Parent Gateway</a>
+        <a href="#">Staff Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Header / Nav ── -->
+  <header>
+    <div class="container">
+      <div class="nav-inner">
+                <a href="index.html" class="logo-wrap">
+          <img class="logo-img" src="images/logo.png" alt="BIL Logo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-svg" style="display:none">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <path d="M17 4L30 11V23L17 30L4 23V11L17 4Z" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+              <path d="M17 8L26 13V21L17 26L8 21V13L17 8Z" fill="#C9A84C" opacity="0.2"/>
+              <text x="17" y="21" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="bold" fill="#C9A84C">B</text>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>BIL — Bilim Innovation Lyceum</h1>
+            <span>Est. 1993 · Bilim Innovation Lyceum</span>
+          </div>
+        </a>
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav>
+          <ul id="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================
+       PAGE HERO
+  ========================================= -->
+  <section class="page-hero">
+    <div class="page-hero-deco"></div>
+    <div class="container">
+      <span class="section-label">Get in Touch</span>
+      <h1>Contact BIL — Bilim Innovation Lyceum</h1>
+      <p>We'd love to hear from you. Whether you're a prospective family, current parent or community member, our team is here to help.</p>
+    </div>
+  </section>
+
+  <!-- =========================================
+       CONTACT MAIN
+  ========================================= -->
+  <main class="contact-main">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <span class="section-label">Our Details</span>
+          <h2>Find Us</h2>
+          <p>Our doors are open Monday to Friday, 7:30 am – 5:00 pm. We look forward to welcoming you to campus.</p>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div class="contact-detail-text">
+              <h4>Address</h4>
+              <p>12 BIL Campus, 15 Abay Avenue, Almaty, Kazakhstan, United States</p>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📞</div>
+            <div class="contact-detail-text">
+              <h4>Phone</h4>
+              <p><a href="tel:+15552400100">+1 (555) 240-0100</a> — Main Reception</p>
+              <p><a href="tel:+15552400120">+1 (555) 240-0120</a> — Admissions Office</p>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">✉</div>
+            <div class="contact-detail-text">
+              <h4>Email</h4>
+              <p><a href="mailto:info@bil-lyceum.edu">info@bil-lyceum.edu</a></p>
+              <p><a href="mailto:admissions@bil-lyceum.edu">admissions@bil-lyceum.edu</a></p>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">🕐</div>
+            <div class="contact-detail-text">
+              <h4>Office Hours</h4>
+              <p>Monday – Friday: 7:30 am – 5:00 pm</p>
+              <p>Saturday: 8:00 am – 12:00 pm (by appointment)</p>
+            </div>
+          </div>
+
+          <!-- Map placeholder -->
+          <div style="margin-top:36px;">
+            <div style="background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:var(--radius-lg);height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px solid var(--border);">
+              <span style="font-size:2.5rem;">🗺️</span>
+              <p style="color:rgba(255,255,255,.5);font-size:.85rem;">12 BIL Campus, 15 Abay Avenue, Springfield CA</p>
+              <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn btn-gold" style="padding:10px 24px;font-size:.78rem;">Open in Google Maps</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-wrap">
+          <span class="section-label">Send a Message</span>
+          <h2>Get in Touch</h2>
+          <p>Fill in the form below and a member of our team will respond within one business day.</p>
+
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="first-name">First Name *</label>
+                <input type="text" id="first-name" name="first-name" placeholder="Jane" required />
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last Name *</label>
+                <input type="text" id="last-name" name="last-name" placeholder="Smith" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="jane.smith@example.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="" disabled selected>Select a subject…</option>
+                <option value="admissions">Admissions Enquiry</option>
+                <option value="academics">Academic Information</option>
+                <option value="fees">Fees &amp; Scholarships</option>
+                <option value="events">Events &amp; Open Days</option>
+                <option value="complaint">Complaint / Concern</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+            </div>
+
+            <div class="form-group" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;">
+              <input type="checkbox" id="consent" name="consent" style="width:auto;margin-top:4px;" required />
+              <label for="consent" style="font-size:.82rem;text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted);">
+                I consent to BIL — Bilim Innovation Lyceum storing my details in order to respond to this enquiry, in accordance with our
+                <a href="#" style="color:var(--gold);">Privacy Policy</a>.
+              </label>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-gold">Send Message →</button>
+            </div>
+
+            <!-- Success Message (hidden by default) -->
+            <div id="form-success" style="display:none;margin-top:20px;padding:18px 22px;background:rgba(201,168,76,.1);border:1px solid var(--gold);border-radius:var(--radius);color:var(--navy);">
+              <strong>✅ Message sent!</strong> Thank you for reaching out. We'll be in touch within one business day.
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================
+       FOOTER
+  ========================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+                  <a href="index.html" class="logo-wrap">
+          <img class="logo-img" src="images/logo.png" alt="BIL Logo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-svg" style="display:none">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <path d="M17 4L30 11V23L17 30L4 23V11L17 4Z" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+              <path d="M17 8L26 13V21L17 26L8 21V13L17 8Z" fill="#C9A84C" opacity="0.2"/>
+              <text x="17" y="21" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="bold" fill="#C9A84C">B</text>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>BIL — Bilim Innovation Lyceum</h1>
+            <span>Est. 1993 · Bilim Innovation Lyceum</span>
+          </div>
+        </a>
+          <p>Dedicated to nurturing excellence, integrity and compassion in every student who passes through our doors.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Programmes</h4>
+          <ul>
+            <li><a href="#">Primary School</a></li>
+            <li><a href="#">Secondary School</a></li>
+            <li><a href="#">IB Diploma</a></li>
+            <li><a href="#">After-School Clubs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <address>
+            12 BIL Campus, 15 Abay Avenue<br>Almaty, Kazakhstan<br><br>
+            <a href="tel:+15552400100">+1 (555) 240-0100</a><br>
+            <a href="mailto:info@bil-lyceum.edu">info@bil-lyceum.edu</a>
+          </address>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 BIL — Bilim Innovation Lyceum. All rights reserved.</span>
+        <span>Designed with ❤ for education</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navMenu.classList.toggle('open');
+    });
+
+    // Form submit handler (demo)
+    const form    = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      success.style.display = 'block';
+      form.reset();
+      success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  </script>
+</body>
+</html>
